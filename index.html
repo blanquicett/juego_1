@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es"> <!-- Cambiado a español ya que el contenido está en español -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Juego de minería incremental desarrollado con JavaScript"> <!-- SEO -->
+    <title>Juego de Minero con IA</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <!-- Contenedor principal del juego -->
+    <div class="game-container">
+        <!-- Barra superior con contador de dinero -->
+        <div class="money-container">
+            <img 
+                src="imagenes/pila-de-monedas.png" 
+                class="coin-icon" 
+                alt="Icono de monedas"
+                width="60" 
+                height="50"
+            > <!-- Agregadas dimensiones para optimización -->
+            <span>Dinero: $<span id="money">0</span></span>
+        </div>
+
+        <!-- Contenedor de los pisos de la mina -->
+        <div class="mine" id="mine"></div>    
+    </div>
+
+    <!-- Pantalla de carga inicial -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1>RICHARD BLANQUICETT</h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-text">
+                Cargando... <span id="loading-percentage">0%</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Sistema de audio -->
+    <audio id="background-music" preload="auto" loop>
+        <!-- Agregado preload para mejor rendimiento -->
+        <source 
+            src="imagenes/Idle Miner Tycoon Theme Song [XT EXTENDED VERSION] Soundtrack.mp3" 
+            type="audio/mp3"
+        >
+    </audio>
+
+    <!-- Botón de control de música -->
+    <button id="toggle-music" class="music-button" aria-label="Alternar música">
+        🔊
+    </button>
+
+    <!-- Templates -->
+    <template id="floor-template">
+        <div class="floor-header">
+            <h3>Piso {{index}} {{locked}}</h3>
+            <div class="upgrades-container">
+                <!-- Contenedor para mejoras/desbloqueo -->
+            </div>
+        </div>
+        <div class="collector-area">
+            <div class="collector"></div>
+        </div>
+        <div class="mine-area">
+            <div class="elevator-area">
+                <div class="elevator-operator"></div>
+            </div>
+            <div class="mining-area">
+                <div class="miner"></div>
+            </div>
+            <div class="resource"></div>
+        </div>
+        <div class="work-buttons">
+            <button class="work-button miner-button">Minar</button>
+            <button class="work-button elevator-button">Transportar</button>
+            <button class="work-button collector-button">Recolectar</button>
+        </div>
+        <div class="work-status">Esperando al minero</div>
+    </template>
+
+    <template id="upgrades-template">
+        <button class="upgrade-btn miner-upgrade">
+            Mejorar Minero (Nivel {{minerLevel}}) - ${{minerCost}}
+            <br>Velocidad: {{minerSpeed}}s | Bonus: +{{minerBonus}}% dinero
+        </button>
+        <button class="upgrade-btn transport-upgrade">
+            Mejorar Transporte (Nivel {{transportLevel}}) - ${{transportCost}}
+            <br>Velocidad: {{transportSpeed}}s
+        </button>
+        <button class="upgrade-btn elevator-upgrade">
+            Mejorar Elevador (Nivel {{elevatorLevel}}) - ${{elevatorCost}}
+            <br>Velocidad: {{elevatorSpeed}}s
+        </button>
+        <button class="power-btn" {{powerDisabled}}>
+            Potenciador (Nivel {{powerLevel}}) - ${{powerCost}}
+            <br>Necesario para desbloquear siguiente piso
+        </button>
+    </template>
+
+    <template id="unlock-template">
+        <div class="unlock-button-container">
+            <p>Costo de desbloqueo: ${{unlockCost}}</p>
+            <p>{{unlockMessage}}</p>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="scrip.js"></script>
+</body>
+</html>

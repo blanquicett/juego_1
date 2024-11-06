@@ -1,0 +1,356 @@
+/* Variables globales */
+:root {
+    --color-primary: #2d2416;
+    --color-secondary: #3a2e1f;
+    --color-accent: #ffd700;
+    --color-mining: #4a3319;
+    --shadow-default: 0 0 20px rgba(0,0,0,0.3);
+    --shadow-inset: inset 0 0 10px rgba(0,0,0,0.3);
+    --transition-default: all 0.3s ease;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: var(--color-primary);
+}
+
+/* Contenedor del contador de dinero */
+.money-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-accent);
+}
+
+.coin-icon {
+    width: 60px;
+    height: 50px;
+    object-fit: contain;
+}
+
+/* Contenedor principal del juego */
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--color-secondary);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-default);
+}
+
+/* Estructura de la mina */
+.mine {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos de los pisos */
+.floor {
+    background: linear-gradient(to bottom, #4a3b22, var(--color-primary));
+    padding: 15px;
+    border-radius: 5px;
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #5c4a2c;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.floor.locked {
+    background: linear-gradient(to bottom, #333, #222);
+    color: #666;
+    pointer-events: none;
+}
+
+.floor-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--color-accent);
+}
+
+/* Áreas de trabajo */
+.mine-area {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    height: 150px;
+    background: #5c4030;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 10px;
+    gap: 10px;
+}
+
+.elevator-area, .mining-area {
+    background: var(--color-mining);
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--shadow-inset);
+}
+
+.mining-area {
+    background: #3d2a15;
+}
+
+.collector-area {
+    background: var(--color-mining);
+    border-radius: 5px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--shadow-inset);
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+/* Personajes y sus animaciones */
+.elevator-operator, .miner, .collector {
+    width: 70px;
+    height: 80px;
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.elevator-operator {
+    background-image: url('imagenes/ascensor-moderno.png');
+}
+
+.miner {
+    background-image: url('imagenes/minero.png');
+}
+
+.collector {
+    width: 50px;
+    height: 60px;
+    background-image: url('imagenes/valores.png');
+}
+
+/* Animaciones de los personajes */
+.elevator-operator.working {
+    animation: elevatorMovement 3s linear;
+}
+
+.miner.working {
+    animation: minerMovement 4s linear;
+}
+
+.collector.working {
+    animation: collectorMovement 3s linear;
+}
+
+/* Botones de trabajo */
+.work-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.work-button {
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition-default);
+    box-shadow: 0 3px rgba(0,0,0,0.2);
+    flex: 1;
+}
+
+.work-button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.work-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px rgba(0,0,0,0.2);
+}
+
+.work-button:disabled {
+    background: #666 !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilos específicos de botones */
+.miner-button {
+    background: linear-gradient(to bottom, var(--color-accent), #b8860b);
+    color: black;
+}
+
+.elevator-button {
+    background: linear-gradient(to bottom, #4CAF50, #45a049);
+}
+
+.collector-button {
+    background: linear-gradient(to bottom, #2196F3, #1976D2);
+}
+
+/* Botones de mejora */
+.upgrade-btn, .power-btn {
+    background: linear-gradient(to bottom, #3f51b5, #303f9f);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition-default);
+    box-shadow: 0 2px rgba(0,0,0,0.2);
+}
+
+.upgrade-btn:hover, .power-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.power-btn {
+    background: linear-gradient(to bottom, #9C27B0, #7B1FA2);
+}
+
+/* Estado de trabajo y desbloqueo */
+.work-status {
+    color: var(--color-accent);
+    font-size: 14px;
+    margin: 10px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.unlock-button-container {
+    text-align: center;
+    margin: 15px 0;
+    color: var(--color-accent);
+}
+
+/* Animaciones */
+@keyframes minerMovement {
+    0% { transform: translateX(0); }
+    45% { transform: translateX(calc(100% - 10px)); }
+    50% { transform: translateX(calc(100% - 10px)) rotateY(200deg); }
+    95% { transform: translateX(0) rotateY(180deg); }
+    100% { transform: translateX(0) rotateY(0deg); }
+}
+
+@keyframes elevatorMovement {
+    0% { transform: translateY(0); }
+    45% { transform: translateY(calc(100% - 60px)); }
+    50% { transform: translateY(calc(100% - 60px)); }
+    95% { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes collectorMovement {
+    0% { transform: translateX(0); }
+    45% { transform: translateX(calc(100% - 10px)); }
+    50% { transform: translateX(calc(100% - 10px)); }
+    95% { transform: translateX(0); }
+    100% { transform: translateX(0); }
+}
+
+/* Sistema de partículas */
+.mining-particles {
+    position: absolute;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: particleFly 5s ease-out forwards;
+}
+
+.particle.gold {
+    background: radial-gradient(var(--color-accent), #b8860b);
+    box-shadow: 0 0 5px var(--color-accent);
+}
+
+.particle.diamond {
+    background: radial-gradient(#00ffff, #0088ff);
+    box-shadow: 0 0 5px #00ffff;
+}
+
+@keyframes particleFly {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(
+            calc(var(--x) * 1px),
+            calc(var(--y) * 1px)
+        ) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Pantalla de carga */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    text-align: center;
+    color: var(--color-accent);
+}
+
+.loading-bar {
+    width: 300px;
+    height: 20px;
+    background: var(--color-secondary);
+    border-radius: 10px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.loading-progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, var(--color-accent), #ff9900);
+    transition: width 0.3s ease;
+}
+
+/* Botón de música */
+.music-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--color-secondary);
+    border: none;
+    color: var(--color-accent);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 1000;
+}
